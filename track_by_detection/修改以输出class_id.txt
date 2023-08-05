@@ -1,0 +1,33 @@
+1. 下载源代码： git clone https://github.com/adipandas/multi-object-tracker.git
+2. 打开文件： motrackers/track.py  进入到函数get_mot_challenge_format，将第112行
+    mot_tuple = (
+            self.frame_id, self.id, self.bbox[0], self.bbox[1], self.bbox[2], self.bbox[3], self.detection_confidence,
+            -1, -1, -1
+        )
+    改为：
+    mot_tuple = (
+            self.frame_id, self.id, self.bbox[0], self.bbox[1], self.bbox[2], self.bbox[3], self.detection_confidence,
+            -1, -1, -1, self.class_id
+        )
+
+    以及函数get_vis_drone_format，将134行
+    mot_tuple = (
+            self.frame_id, self.id, self.bbox[0], self.bbox[1], self.bbox[2], self.bbox[3],
+            self.detection_confidence, self.class_id, -1, -1
+        )
+    改为
+    mot_tuple = (
+            self.frame_id, self.id, self.bbox[0], self.bbox[1], self.bbox[2], self.bbox[3],
+            self.detection_confidence, self.class_id, -1, -1, self.class_id
+        )
+
+3. 进入到multi-object-tracker/目录，运行下列命令重新安装：
+    pip install -e .
+
+4. 对于项目中所有运行需要获取track的示例，调用方式由
+
+    frame_num, id, bb_left, bb_top, bb_width, bb_height, confidence, x, y, z = track
+
+    改为：
+
+    frame_num, id, bb_left, bb_top, bb_width, bb_height, confidence, x, y, z, class_id = track
